@@ -25,7 +25,7 @@ Activation        () //Can be included within Conv as well; ReLU for now
 */
 
 //Initializations
-float output[10];
+
 float wmap1[5][5][num_filters] = {0.35997473, 0.9718888 , 0.46875922, 0.11487477, 0.32867326,
        0.5385265 , 0.1807261 , 0.55420249, 0.75022106, 0.6804204 ,
        0.83661253, 0.48501646, 0.87797966, 0.56968033, 0.56618219,
@@ -2948,11 +2948,13 @@ float wmap2[1152][10] = {0.3215552038444145, 0.5139548681697002, 0.8107785693771
 0.48842262705792217, 0.3044302853435412, 0.3527511453458214, 0.21498578901222898,
 0.9856519517076884, 0.507150159170138, 0.06907124065842507, 0.41580291121144053};
 
-
+float bmap2[10] = {0.91166484, 0.8577703 , 0.72095335, 0.45148087, 0.77037469,
+       0.30268597, 0.15410355, 0.12577461, 0.95858505, 0.49607832};
 float input[28][28][1];
 float fmap1[24][24][num_filters];//presently output of activation is also here only
 float fmap2[12][12][num_filters];//pool out
 float dense[12*12*num_filters]; // make 
+float output[10];
 
 //Functions
 void normalize(){
@@ -3023,6 +3025,7 @@ void Dense(){
 		for(int i=0; i<12*12*num_filters; i++){
 			output[j] += dense[i] * wmap2[i][j];
 		}
+		output[j] += bmap2[j];
 		sum += output[j];
 	}
 
@@ -3060,7 +3063,7 @@ int main(){
 	
 	Conv2D();
 	Maxpooling2D();
-	printf("\n\n\n\n\nFeature Map 2\n\n\n\n");
+	//printf("\n\n\n\n\nFeature Map 2\n\n\n\n");
 	/*for(int i=0;i<12;i++){
 		for(int j=0; j<12; j++){
 			for(k=0; k<num_filters; k++)
