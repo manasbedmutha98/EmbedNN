@@ -4,18 +4,22 @@
 /*
 CNN Architecture:
 
-Input             (28,28,1)
-Conv2D(5,8,1)	  (24,24,8)
-Activation        () //Can be included within Conv as well; ReLU for now
+Input           input   (28,28,1)
+Conv2D(5,8,1)	fmap1   (24,24,8)
+//Activation can be included within Conv as well; ReLU for now;
+MaxPooling2D    fmap2   (12,12,8)
+Flatten	        dense   (11520)
+Dense           output  (10)  //With softmax
 
 */
 
 //Inclusions
 #include <stdio.h>
+#include <stdlib.h> 
 
 //Definitions
 #define num_filters 8
-
+#define IMG_MAX 255
 /*
 {0.74808066, 0.57729377, 0.49669386, 0.43003974, 0.45781339,
        0.71830539, 0.19963829, 0.60383017, 0.52709023, 0.46571014,
@@ -3056,7 +3060,7 @@ int main(){
 	for(int i=0;i<28;i++){
 		for(int j=0; j<28; j++){
 			//printf("%f",fmap1[i][j][0]);
-			input[i][j][k] = 2*rand()-1;
+			input[i][j][k] = 128*(rand()/(double)RAND_MAX)-255;
 			//printf("%f",input[i][j][0]);
 		}
 	}
